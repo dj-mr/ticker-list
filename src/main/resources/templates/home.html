@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Tickers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/datatables.min.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <script
+      src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" charset="utf8" th:src="@{/js/datatables.min.js}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="banner">Stock Tickers</h1>
+        <hr/>
+        <div class="tickers">
+            <table id="data_table">
+                <caption>List of tickers along with some additional details about each of them</caption>
+                <thead>
+                    <tr>
+                        <th class="leftIndentedCell">Symbol</th>
+                        <th class="leftIndentedCell">Security</th>
+                        <th class="leftIndentedCell">Headquarters Location</th>
+                        <th class="leftIndentedCell">GICS Sub Industry</th>
+                        <th class="leftIndentedCell">GICS Sector</th>
+                        <th class="leftIndentedCell">Founded</th>
+                        <th class="leftIndentedCell">Date first added</th>
+                        <th class="leftIndentedCell">CIK</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="error">
+        </div>
+        <div class="footer">
+            API Documentation <a target="_blank" rel="noopener noreferrer" href='/api/ui'>URL</a>
+        </div>
+    </div>
+</body>
+<script th:src="@{/js/home.js}"></script>
+</html>
