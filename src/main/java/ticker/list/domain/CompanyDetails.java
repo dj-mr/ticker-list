@@ -1,6 +1,20 @@
 package ticker.list.domain;
 
+import java.time.Clock;
+import java.time.ZonedDateTime;
+
+import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -10,7 +24,10 @@ import lombok.RequiredArgsConstructor;
  *
  */
 @Data
+@Entity
+@Cacheable
 @RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 public class CompanyDetails {
 
     /**
@@ -21,6 +38,7 @@ public class CompanyDetails {
     /**
      * CIK of the company.
      */
+    @Id
     private final String cik;
 
     /**

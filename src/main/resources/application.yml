@@ -1,0 +1,6 @@
+server:
+  port: 8443
+  
+sec:
+  urls:
+    all-ciks: https://www.sec.gov/Archives/edgar/cik-lookup-data.txt

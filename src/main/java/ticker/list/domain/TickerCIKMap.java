@@ -1,6 +1,16 @@
 package ticker.list.domain;
 
+import java.time.Clock;
+import java.time.ZonedDateTime;
+
+import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -9,12 +19,16 @@ import lombok.RequiredArgsConstructor;
  *
  */
 @Data
+@Entity
 @RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@Cacheable
 public class TickerCIKMap {
 
     /**
      * CIK number.
      */
+    @Id
     private final String cik;
 
     /**
