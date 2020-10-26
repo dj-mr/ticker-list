@@ -14,31 +14,31 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
- * CIK, ticker list as shared in https://www.sec.gov/files/company_tickers.json.
+ * SIC codes as defined in https://www.sec.gov/info/edgar/siccodes.htm.
  * @author jdaruri
  *
  */
 @Data
 @Entity
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@RequiredArgsConstructor
 @Cacheable
-public class TickerCIKMap {
+public class SicData {
 
     /**
-     * CIK number.
+     * SIC Code.
      */
     @Id
-    private final String cik;
+    private final String sicCode;
 
     /**
-     * Ticker symbol.
+     * Industry code as defined in SEC.
      */
-    private final String ticker;
+    private final String industry;
 
     /**
-     * Company Name.
+     * Industry categorization description as defined in SEC.
      */
-    private final String name;
+    private final String sicTitle;
 
 }

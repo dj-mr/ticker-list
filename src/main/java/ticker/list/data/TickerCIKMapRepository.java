@@ -2,9 +2,9 @@ package ticker.list.data;
 
 import org.springframework.data.repository.CrudRepository;
 
-import ticker.list.domain.TickerCIKMap;
+import ticker.list.domain.TickerCikMap;
 
 public interface TickerCIKMapRepository
-    extends CrudRepository<TickerCIKMap, String> {
+    extends CrudRepository<TickerCikMap, String> {
 
 }

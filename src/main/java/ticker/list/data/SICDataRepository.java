@@ -2,9 +2,9 @@ package ticker.list.data;
 
 import org.springframework.data.repository.CrudRepository;
 
-import ticker.list.domain.SICData;
+import ticker.list.domain.SicData;
 
 public interface SICDataRepository
-    extends CrudRepository<SICData, String> {
+    extends CrudRepository<SicData, String> {
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ticker.list.data.TickerInfoRepository;
 import ticker.list.domain.TickerInfo;
+import ticker.list.processors.CIKProcessor;
 
 @RestController
 @EnableCaching
@@ -19,24 +20,27 @@ import ticker.list.domain.TickerInfo;
 @CrossOrigin(origins = "*")
 public class TickerController {
 
-	/**
-	 * TickerInfoRepository.
-	 */
-	private TickerInfoRepository tickerInfoRepository;
+    /**
+     * TickerInfoRepository.
+     */
+    private TickerInfoRepository tickerInfoRepository;
 
-	@Autowired
-	private EntityLinks entityLinks;
+    /**
+     * Variable used to for processing CIK data.
+     */
+    @Autowired
+    private CIKProcessor cikProcessor;
 
-	/**
-	 * Variable that holds URI for CIK Data.
-	 */
-	@Value("{sec.urls.all-ciks}")
-	private String allCiks;
+    /**
+     * EntityLinks is used to get data from related domain models.
+     */
+    @Autowired
+    private EntityLinks entityLinks;
 
-	/**
-	 * Fetch Ticker Details for all tickers.
-	 * @return List of all tickers
-	 */
+    /**
+     * Fetch Ticker Details for all tickers.
+     * @return List of all tickers
+     */
     @GetMapping
     public Iterable<TickerInfo> getTickerInfo() {
         return tickerInfoRepository.findAll();
@@ -47,8 +51,7 @@ public class TickerController {
      */
     @PutMapping
     public void updateTickerInfo() {
-        //TODO -  Update this
-    	System.out.println("allCiks " + allCiks);
+        cikProcessor.refreshCIKData();
     }
 
 }

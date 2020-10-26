@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "sec.urls.ciks",
+    "type": "java.lang.String",
+    "description": "URL from SEC website that holds data of prominent CIKs"
+  },
+  {
+    "name": "sec.local-folders.ciks",
+    "type": "java.lang.String",
+    "description": "Location of folder where CIK data is stored"
+  },
+  {
+    "name": "database.batch-size.inserts",
+    "type": "java.lang.String",
+    "description": "Batch size for insert operations in database"
+  }
+]}

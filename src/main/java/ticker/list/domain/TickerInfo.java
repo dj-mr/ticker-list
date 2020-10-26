@@ -34,8 +34,8 @@ public class TickerInfo {
     /**
      * Ticker CIK Mapping.
      */
-    @OneToOne(targetEntity = TickerCIKMap.class)
-    private TickerCIKMap tickerCIKMap;
+    @OneToOne(targetEntity = TickerCikMap.class)
+    private TickerCikMap tickerCikMap;
 
     /**
      * Ticker Organization details.
@@ -46,8 +46,8 @@ public class TickerInfo {
     /**
      * Ticker Industry Code details.
      */
-    @ManyToOne(targetEntity = TickerCIKMap.class)
-    private SICData sicData;
+    @ManyToOne(targetEntity = TickerCikMap.class)
+    private SicData sicData;
 
     /**
      * Date and time when record was updated.

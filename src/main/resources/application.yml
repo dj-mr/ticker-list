@@ -1,6 +1,41 @@
+# Server details
 server:
   port: 8443
   
+# SEC Links
 sec:
   urls:
-    all-ciks: https://www.sec.gov/Archives/edgar/cik-lookup-data.txt
+    ciks: https://www.sec.gov/files/company_tickers.json
+  local-folders:
+    ciks: /tmp/company_tickers.json
+    
+# Swagger documentation
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    
+# Batch size for database operations    
+database:
+  batchSize:
+    inserts: 500
+    
+# Spring Datasources
+spring:
+  datasource:
+    url: jdbc:h2:file:~/h2/financial-data
+    username: sa
+  h2:
+    console:
+      enabled: true
+      path: /h2-console/
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        type: trace
+        use_sql_comments: true
+    show-sql: true
