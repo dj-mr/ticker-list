@@ -2,16 +2,26 @@
   {
     "name": "sec.urls.ciks",
     "type": "java.lang.String",
-    "description": "URL from SEC website that holds data of prominent CIKs"
+    "description": "URL from SEC website that holds data of prominent CIKs."
   },
   {
     "name": "sec.local-folders.ciks",
     "type": "java.lang.String",
-    "description": "Location of folder where CIK data is stored"
+    "description": "Location of folder where CIK data is stored."
   },
   {
     "name": "database.batch-size.inserts",
     "type": "java.lang.String",
-    "description": "Batch size for insert operations in database"
+    "description": "Batch size for insert operations in database."
+  },
+  {
+    "name": "sec.urls.company-details.prefix",
+    "type": "java.lang.String",
+    "description": "domain name and other non varying prefix of URL that offers company details."
+  },
+  {
+    "name": "sec.urls.company-details.suffix",
+    "type": "java.lang.String",
+    "description": "Suffix that must be appended to create URL that offers company details."
   }
 ]}

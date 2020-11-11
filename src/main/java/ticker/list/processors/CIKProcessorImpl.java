@@ -47,13 +47,15 @@ public class CIKProcessorImpl implements CIKProcessor {
 
     /**
      * Refresh CIK data in CIK database.
+     * @return
      */
     @Override
-    public void refreshCIKData() {
+    public List<String> refreshCIKData() {
 
         List<TickerCikMap> tickerCIKMapList = new ArrayList<>();
+        List<String> cikList = new ArrayList<>();
 
-        try (JsonParser jsonParser = new JsonFactory().createParser(new URL(ciks));) {
+        try (JsonParser jsonParser = new JsonFactory().createParser(new URL(ciks))) {
 
             // Check if JSON array?
             if (jsonParser.nextToken() == JsonToken.START_OBJECT) {
@@ -74,6 +76,7 @@ public class CIKProcessorImpl implements CIKProcessor {
 
                             // Save value of token in CIK
                             tickerCikMap.setCik(jsonParser.getText());
+                            cikList.add(jsonParser.getText());
                         }
 
                         if ("ticker".equals(fieldName)) {
@@ -101,10 +104,9 @@ public class CIKProcessorImpl implements CIKProcessor {
         }
 
         // Save content to DB in batches
-        Iterables.partition(tickerCIKMapList, insertBatchSize).forEach(batch -> {
-            log.info("Processed batch with size: {}. 1st Record: {}", batch.size(), batch.get(0));
-            tickerCIKMapRepository.saveAll(batch);
-        });
+        Iterables.partition(tickerCIKMapList, insertBatchSize).forEach(batch -> tickerCIKMapRepository.saveAll(batch));
+
+        return cikList;
 
     }
 

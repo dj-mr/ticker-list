@@ -49,7 +49,6 @@ hs_err_pid*
 ##############################
 ## Maven
 ##############################
-target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -68,7 +67,6 @@ mvnw.cmd
 ## Gradle
 ##############################
 bin/
-build/
 .gradle
 .gradletasknamecache
 gradle-app.setting
@@ -80,32 +78,24 @@ gradle-app.setting
 out/
 .idea/
 .idea_modules/
-*.iml
-*.ipr
-*.iws
 
 ##############################
 ## Eclipse
 ##############################
 .settings/
-bin/
 tmp/
 .metadata
-.classpath
-.project
 *.tmp
 *.bak
 *.swp
 *~.nib
 local.properties
 .loadpath
-.factorypath
 
 ##############################
 ## NetBeans
 ##############################
 nbproject/private/
-build/
 nbbuild/
 dist/
 nbdist/
@@ -115,7 +105,6 @@ nb-configuration.xml
 ##############################
 ## Visual Studio Code
 ##############################
-.vscode/
 .code-workspace
 
 ##############################
