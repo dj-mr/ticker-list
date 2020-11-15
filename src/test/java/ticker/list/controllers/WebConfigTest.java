@@ -25,7 +25,7 @@ public class WebConfigTest {
 
     /**
      * Testing Home Page Response.
-     * @throws Exception
+     * @throws Exception thrown by URI resource.
      */
     @Test
     public void testHome() throws Exception {

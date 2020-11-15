@@ -6,6 +6,9 @@ server:
 sec:
   urls:
     ciks: https://www.sec.gov/files/company_tickers.json
+    company-details: 
+      prefix: https://www.edgarcompany.sec.gov/servlet/CompanyDBSearch?page=detailed&cik=
+      suffix: "&main_back=2"
   local-folders:
     ciks: /tmp/company_tickers.json
     
@@ -19,7 +22,7 @@ database:
   batchSize:
     inserts: 500
     
-# Spring Datasources
+# Spring Data Sources
 spring:
   datasource:
     url: jdbc:h2:file:~/h2/financial-data
@@ -29,13 +32,13 @@ spring:
       enabled: true
       path: /h2-console/
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
-        format_sql: true
-        show_sql: true
+        format_sql: false
+        show_sql: false
         type: trace
-        use_sql_comments: true
-    show-sql: true
+        use_sql_comments: false
+    show-sql: false

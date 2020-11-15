@@ -1,7 +1,8 @@
 package ticker.list.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,10 +11,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
 import ticker.list.data.TickerInfoRepository;
 import ticker.list.domain.TickerInfo;
 import ticker.list.processors.CIKProcessor;
+import ticker.list.processors.OrganizationDetailsProcessor;
 
+@Slf4j
 @RestController
 @EnableCaching
 @RequestMapping(path = "/tickers", produces = "application/json")
@@ -30,6 +34,9 @@ public class TickerController {
      */
     @Autowired
     private CIKProcessor cikProcessor;
+    
+    @Autowired
+    private OrganizationDetailsProcessor organizationDetailsProcessor;
 
     /**
      * EntityLinks is used to get data from related domain models.
@@ -51,7 +58,9 @@ public class TickerController {
      */
     @PutMapping
     public void updateTickerInfo() {
-        cikProcessor.refreshCIKData();
+
+        List<String> ciksRefreshed = cikProcessor.refreshCIKData();
+        organizationDetailsProcessor.updateOrganizationDetails(ciksRefreshed);
     }
 
 }

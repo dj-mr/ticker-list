@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.google.common.collect.Iterables;
+
 import lombok.extern.slf4j.Slf4j;
 import ticker.list.data.TickerCIKMapRepository;
 import ticker.list.domain.TickerCikMap;
@@ -47,13 +48,16 @@ public class CIKProcessorImpl implements CIKProcessor {
 
     /**
      * Refresh CIK data in CIK database.
+     * 
+     * @return returns list of CIKs returned by Ticker-CIK-Name URI.
      */
     @Override
-    public void refreshCIKData() {
+    public List<String> refreshCIKData() {
 
         List<TickerCikMap> tickerCIKMapList = new ArrayList<>();
+        List<String> cikList = new ArrayList<>();
 
-        try (JsonParser jsonParser = new JsonFactory().createParser(new URL(ciks));) {
+        try (JsonParser jsonParser = new JsonFactory().createParser(new URL(ciks))) {
 
             // Check if JSON array?
             if (jsonParser.nextToken() == JsonToken.START_OBJECT) {
@@ -61,36 +65,38 @@ public class CIKProcessorImpl implements CIKProcessor {
                 // If Array, loop until corresponding ARRAY end is found
                 while ((jsonParser.nextToken() != JsonToken.END_OBJECT)) {
 
-                    TickerCikMap tickerCikMap =  new TickerCikMap();
+                    TickerCikMap tickerCikMap = new TickerCikMap();
                     // Read each element until "}" is reached.
                     while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
 
                         String fieldName = jsonParser.getCurrentName();
 
-                        if ("cik_str".equals(fieldName)) {
-
+                        switch (fieldName) {
+                        case "cik_str":
                             // Extract next token
                             jsonParser.nextToken();
 
                             // Save value of token in CIK
                             tickerCikMap.setCik(jsonParser.getText());
-                        }
-
-                        if ("ticker".equals(fieldName)) {
-
+                            cikList.add(jsonParser.getText());
+                            break;
+                        case "ticker":
                             // Extract next token
                             jsonParser.nextToken();
 
                             // Save value of token in Ticker
                             tickerCikMap.setTicker(jsonParser.getText());
-                        }
-                        if ("title".equals(fieldName)) {
-
+                            break;
+                        case "title":
                             // Extract next token
                             jsonParser.nextToken();
 
                             // Save value of token in Name
                             tickerCikMap.setName(jsonParser.getText());
+                            break;
+                        default:
+                            break;
+
                         }
                     }
                     tickerCIKMapList.add(tickerCikMap);
@@ -101,10 +107,9 @@ public class CIKProcessorImpl implements CIKProcessor {
         }
 
         // Save content to DB in batches
-        Iterables.partition(tickerCIKMapList, insertBatchSize).forEach(batch -> {
-            log.info("Processed batch with size: {}. 1st Record: {}", batch.size(), batch.get(0));
-            tickerCIKMapRepository.saveAll(batch);
-        });
+        Iterables.partition(tickerCIKMapList, insertBatchSize).forEach(batch -> tickerCIKMapRepository.saveAll(batch));
+
+        return cikList;
 
     }
 

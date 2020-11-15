@@ -1,12 +1,8 @@
 package ticker.list.domain;
 
-import java.time.Clock;
-import java.time.ZonedDateTime;
-
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -20,7 +16,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Data
 @Entity
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @RequiredArgsConstructor
 @Cacheable
 public class SicData {

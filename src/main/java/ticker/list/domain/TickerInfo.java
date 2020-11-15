@@ -40,13 +40,13 @@ public class TickerInfo {
     /**
      * Ticker Organization details.
      */
-    @OneToOne(targetEntity = CompanyDetails.class)
-    private CompanyDetails companyDetails;
+    @OneToOne(targetEntity = OrganizationDetails.class)
+    private OrganizationDetails organizationDetails;
 
     /**
      * Ticker Industry Code details.
      */
-    @ManyToOne(targetEntity = TickerCikMap.class)
+    @ManyToOne(targetEntity = SicData.class)
     private SicData sicData;
 
     /**

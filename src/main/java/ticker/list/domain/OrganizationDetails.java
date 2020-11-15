@@ -1,20 +1,10 @@
 package ticker.list.domain;
 
-import java.time.Clock;
-import java.time.ZonedDateTime;
-
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -25,65 +15,64 @@ import lombok.RequiredArgsConstructor;
  */
 @Data
 @Entity
-@Cacheable
 @RequiredArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-public class CompanyDetails {
+@Cacheable
+public class OrganizationDetails {
 
     /**
-     * Name of the company.
+     * Name of the Organization.
      */
-    private final String name;
+    private String name;
 
     /**
      * CIK of the company.
      */
     @Id
-    private final String cik;
+    private String cik;
 
     /**
      * IRS Number of the company.
      */
-    private final String irsNumber;
+    private String irsNumber;
 
     /**
      * Reporting File Number of the company.
      */
-    private final String reportingFileNumber;
+    private String reportingFileNumber;
 
     /**
      * Regulatory Entity Type of the company.
      */
-    private final String regulatedEntityType;
+    private String regulatedEntityType;
 
     /**
      * Industry Code of the company.
      */
-    private final String sicCode;
+    private String sicCode;
 
     /**
      * Address as updated in SEC.
      */
-    private final String address;
+    private String address;
 
     /**
      * Phone number as updated in SEC.
      */
-    private final String phoneNumber;
+    private String phoneNumber;
 
     /**
      * State of incorporation of the company.
      */
-    private final String stateOfIncorporation;
+    private String stateOfIncorporation;
 
     /**
      * Fiscal Year end as updated in SEC.
      */
-    private final String fiscalYearEnd;
+    private String fiscalYearEnd;
 
     /**
      * Date when this data was updated in SEC.
      */
-    private final String dateOfLastUpdate;
+    private String dateOfLastUpdate;
 
 }
