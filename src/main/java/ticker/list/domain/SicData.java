@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Data
 @Entity
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @RequiredArgsConstructor
 @Cacheable
 public class SicData {

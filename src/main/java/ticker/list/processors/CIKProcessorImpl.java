@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.google.common.collect.Iterables;
+
 import lombok.extern.slf4j.Slf4j;
 import ticker.list.data.TickerCIKMapRepository;
 import ticker.list.domain.TickerCikMap;
@@ -47,7 +48,8 @@ public class CIKProcessorImpl implements CIKProcessor {
 
     /**
      * Refresh CIK data in CIK database.
-     * @return
+     * 
+     * @return returns list of CIKs returned by Ticker-CIK-Name URI.
      */
     @Override
     public List<String> refreshCIKData() {
@@ -63,37 +65,38 @@ public class CIKProcessorImpl implements CIKProcessor {
                 // If Array, loop until corresponding ARRAY end is found
                 while ((jsonParser.nextToken() != JsonToken.END_OBJECT)) {
 
-                    TickerCikMap tickerCikMap =  new TickerCikMap();
+                    TickerCikMap tickerCikMap = new TickerCikMap();
                     // Read each element until "}" is reached.
                     while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
 
                         String fieldName = jsonParser.getCurrentName();
 
-                        if ("cik_str".equals(fieldName)) {
-
+                        switch (fieldName) {
+                        case "cik_str":
                             // Extract next token
                             jsonParser.nextToken();
 
                             // Save value of token in CIK
                             tickerCikMap.setCik(jsonParser.getText());
                             cikList.add(jsonParser.getText());
-                        }
-
-                        if ("ticker".equals(fieldName)) {
-
+                            break;
+                        case "ticker":
                             // Extract next token
                             jsonParser.nextToken();
 
                             // Save value of token in Ticker
                             tickerCikMap.setTicker(jsonParser.getText());
-                        }
-                        if ("title".equals(fieldName)) {
-
+                            break;
+                        case "title":
                             // Extract next token
                             jsonParser.nextToken();
 
                             // Save value of token in Name
                             tickerCikMap.setName(jsonParser.getText());
+                            break;
+                        default:
+                            break;
+
                         }
                     }
                     tickerCIKMapList.add(tickerCikMap);

@@ -6,8 +6,7 @@ public interface OrganizationDetailsProcessor {
 
     /**
      * This method saves details about an organization given the CIK.
-     * @param CIK of the organization that will be refreshed.
-     * @param ciksToRefresh
+     * @param ciksToRefresh - List of tickers whose data must be refreshed.
      */
     void updateOrganizationDetails(List<String> ciksToRefresh);
 
