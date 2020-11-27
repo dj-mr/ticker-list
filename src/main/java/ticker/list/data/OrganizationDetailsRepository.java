@@ -1,7 +1,6 @@
 package ticker.list.data;
 
 import org.springframework.data.repository.CrudRepository;
-
 import ticker.list.domain.OrganizationDetails;
 
 public interface OrganizationDetailsRepository

@@ -1,13 +1,14 @@
 package ticker.list.domain;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
+import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * SIC codes as defined in https://www.sec.gov/info/edgar/siccodes.htm.
@@ -19,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @RequiredArgsConstructor
 @Cacheable
-public class SicData {
+public class SicData implements Serializable {
 
     /**
      * SIC Code.

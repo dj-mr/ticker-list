@@ -1,11 +1,16 @@
 package ticker.list.domain;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Domain Model based on definitions at
@@ -17,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @RequiredArgsConstructor
 @Cacheable
-public class OrganizationDetails {
+public class OrganizationDetails implements Serializable {
 
     /**
      * Name of the Organization.
@@ -74,5 +79,18 @@ public class OrganizationDetails {
      * Date when this data was updated in SEC.
      */
     private String dateOfLastUpdate;
+
+    /**
+     * Date Record is added to the ticker-list database.
+     */
+    private Date createdAt;
+    @PrePersist
+    void createdAt() {
+        this.createdAt = new Date();
+    }
+
+    @OneToOne
+    @JoinColumn(name = "sicCode", insertable = false, updatable = false)
+    private SicData sicData;
 
 }

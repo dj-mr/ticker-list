@@ -86,37 +86,37 @@ public class OrganizationDetailsProcessorImpl implements OrganizationDetailsProc
 
                 switch (headerName) {
                     case "Company Name:":
-                        organizationDetail.setName(value);
+                        organizationDetail.setName(value.equals("")? "N/A": value);
                         break;
                     case "CIK:":
-                        organizationDetail.setCik(value);
+                        organizationDetail.setCik(value.equals("")? "N/A": value);
                         break;
                     case "IRS Number:":
-                        organizationDetail.setIrsNumber(value);
+                        organizationDetail.setIrsNumber(value.equals("")? "N/A": value);
                         break;
                     case "Reporting File Number:":
-                        organizationDetail.setReportingFileNumber(value);
+                        organizationDetail.setReportingFileNumber(value.equals("")? "N/A": value);
                         break;
                     case "Regulated Entity Type:":
-                        organizationDetail.setRegulatedEntityType(value);
+                        organizationDetail.setRegulatedEntityType(value.equals("")? "N/A": value);
                         break;
                     case "SIC Code:":
-                        organizationDetail.setSicCode(value);
+                        organizationDetail.setSicCode(value.equals("")? "N/A": value);
                         break;
                     case "Address:":
-                        organizationDetail.setAddress(value);
+                        organizationDetail.setAddress(value.equals("")? "N/A": value);
                         break;
                     case "Phone Number:":
-                        organizationDetail.setPhoneNumber(value);
+                        organizationDetail.setPhoneNumber(value.equals("")? "N/A": value);
                         break;
                     case "State of Incorporation:":
-                        organizationDetail.setStateOfIncorporation(value);
+                        organizationDetail.setStateOfIncorporation(value.equals("")? "N/A": value);
                         break;
                     case "Fiscal Year End:":
-                        organizationDetail.setFiscalYearEnd(value);
+                        organizationDetail.setFiscalYearEnd(value.equals("")? "N/A": value);
                         break;
                     case "Date of Last Update:":
-                        organizationDetail.setDateOfLastUpdate(value);
+                        organizationDetail.setDateOfLastUpdate(value.equals("")? "N/A": value);
                         break;
                     default:
                         log.error("Unexpected element for CIK {}, element {}", cik, headerName);

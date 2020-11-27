@@ -6,3 +6,7 @@
  - [ ] Allow AJAX/jQuery
  - [ ] If needed, generalize/improve logic that streams JSON file from URL and stores it in DB. Changes in `CIKProcessorImpl.refreshCIKData()`
  - [ ] Include log.info and log.debug statements generously
+ - [ ] Make code Reactive
+ - [ ] GET should return data by CIK, Company Name, Industry and other relevant parameters
+ - [ ] PUT request must refresh OrganzationDetails records that were updated more than 3 months ago and in batches.
+ - [ ] GET must response data in Apache Avro format

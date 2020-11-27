@@ -1,21 +1,23 @@
 package ticker.list.controllers;
 
-import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.extern.slf4j.Slf4j;
-import ticker.list.data.TickerInfoRepository;
-import ticker.list.domain.TickerInfo;
+import reactor.core.publisher.Flux;
+import ticker.list.data.TickerCIKMapRepository;
+import ticker.list.domain.TickerCikMap;
 import ticker.list.processors.CIKProcessor;
 import ticker.list.processors.OrganizationDetailsProcessor;
+import ticker.list.processors.SicProcessor;
+
+import java.time.Duration;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -25,32 +27,30 @@ import ticker.list.processors.OrganizationDetailsProcessor;
 public class TickerController {
 
     /**
-     * TickerInfoRepository.
+     * TickerCIKMapRepository.
      */
-    private TickerInfoRepository tickerInfoRepository;
+    @Autowired
+    private TickerCIKMapRepository tickerCIKMapRepository;
 
     /**
      * Variable used to for processing CIK data.
      */
     @Autowired
-    private CIKProcessor cikProcessor;
+    CIKProcessor cikProcessor;
     
     @Autowired
     private OrganizationDetailsProcessor organizationDetailsProcessor;
 
-    /**
-     * EntityLinks is used to get data from related domain models.
-     */
     @Autowired
-    private EntityLinks entityLinks;
+    private SicProcessor sicProcessor;
 
     /**
      * Fetch Ticker Details for all tickers.
      * @return List of all tickers
      */
     @GetMapping
-    public Iterable<TickerInfo> getTickerInfo() {
-        return tickerInfoRepository.findAll();
+    public Flux<TickerCikMap> getAllTickers(@RequestParam(name = "number_of_samples", required = false, defaultValue = "100") int numberOfSamples) {
+        return Flux.fromIterable(tickerCIKMapRepository.findAll()).take(numberOfSamples).take(Duration.ofSeconds(2));
     }
 
     /**
@@ -58,7 +58,7 @@ public class TickerController {
      */
     @PutMapping
     public void updateTickerInfo() {
-
+        sicProcessor.refreshSicCodes();
         List<String> ciksRefreshed = cikProcessor.refreshCIKData();
         organizationDetailsProcessor.updateOrganizationDetails(ciksRefreshed);
     }

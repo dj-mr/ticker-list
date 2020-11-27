@@ -5,6 +5,7 @@ server:
 # SEC Links
 sec:
   urls:
+    sic-codes: https://www.sec.gov/info/edgar/siccodes.htm
     ciks: https://www.sec.gov/files/company_tickers.json
     company-details: 
       prefix: https://www.edgarcompany.sec.gov/servlet/CompanyDBSearch?page=detailed&cik=
@@ -25,20 +26,19 @@ database:
 # Spring Data Sources
 spring:
   datasource:
-    url: jdbc:h2:file:~/h2/financial-data
-    username: sa
-  h2:
-    console:
-      enabled: true
-      path: /h2-console/
+    url: jdbc:postgresql://localhost:5432/financial-data
+    username: admin
+    password: admin
   jpa:
     generate-ddl: false
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
         show_sql: false
         type: trace
         use_sql_comments: false
+        default_schema: ticker_list
     show-sql: false
