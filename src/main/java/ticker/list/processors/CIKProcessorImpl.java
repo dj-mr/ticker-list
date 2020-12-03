@@ -1,22 +1,21 @@
 package ticker.list.processors;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.google.common.collect.Iterables;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import ticker.list.data.TickerCIKMapRepository;
 import ticker.list.domain.TickerCikMap;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -77,8 +76,8 @@ public class CIKProcessorImpl implements CIKProcessor {
                             jsonParser.nextToken();
 
                             // Save value of token in CIK
-                            tickerCikMap.setCik(jsonParser.getText());
-                            cikList.add(jsonParser.getText());
+                            tickerCikMap.setCik(StringUtils.leftPad(jsonParser.getText(), 10, '0'));
+                            cikList.add(StringUtils.leftPad(jsonParser.getText(), 10, '0'));
                             break;
                         case "ticker":
                             // Extract next token

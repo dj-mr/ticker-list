@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.3.RELEASE</version>
+		<version>2.3.4.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ticker.list</groupId>
@@ -85,11 +85,25 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Postgres database -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+
 		<!-- HATEOAS for generating data that holds information from multiple domain 
 			models -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+			<version>1.2.1</version>
 		</dependency>
 
 		<!-- Springdoc OPENAPI for generating Swagger documentation -->
@@ -126,6 +140,11 @@
 			<artifactId>testng</artifactId>
 			<version>RELEASE</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+			<version>3.3.4.RELEASE</version>
 		</dependency>
 
 	</dependencies>
