@@ -12,8 +12,8 @@ import java.io.Serializable;
 
 /**
  * SIC codes as defined in https://www.sec.gov/info/edgar/siccodes.htm.
- * @author jdaruri
  *
+ * @author jdaruri
  */
 @Data
 @Entity

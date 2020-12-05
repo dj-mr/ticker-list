@@ -19,21 +19,30 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static ticker.constants.Constants.CIK_PREFIX_CHAR;
+import static ticker.constants.Constants.CIK_STRING_SIZE;
+
 @Component
 @Slf4j
 public class OrganizationDetailsProcessorImpl implements OrganizationDetailsProcessor {
 
+    /**
+     * Prefix of URL used to get organization details.
+     */
     @Value("${sec.urls.company-details.prefix}")
-    String urlPrefix;
+    private String urlPrefix;
 
+    /**
+     * Suffix of URL used to get organization details.
+     */
     @Value("${sec.urls.company-details.suffix}")
-    String urlSuffix;
+    private String urlSuffix;
 
     /**
      * Autowire OrganizationDetailsRepository.
      */
     @Autowired
-    OrganizationDetailsRepository organizationDetailsRepository;
+    private OrganizationDetailsRepository organizationDetailsRepository;
 
     /**
      * Batch size for insert operations.
@@ -56,18 +65,15 @@ public class OrganizationDetailsProcessorImpl implements OrganizationDetailsProc
                         .findAll()
                         .spliterator(), false)
                 .map(getCikValue)
-                .collect(Collectors.toList())
-        ;
+                .collect(Collectors.toList());
 
         /*
          * Get CIK data for only those CIKs which are not already downloaded.
          */
         ciksToRefresh
                 .parallelStream()
-                .filter(cik -> !ciksAlreadyInDatabase.contains(StringUtils.leftPad(cik, 10, '0')))
-                .forEach(this::extractContentFromUrl)
-        ;
-
+                .filter(cik -> !ciksAlreadyInDatabase.contains(StringUtils.leftPad(cik, CIK_STRING_SIZE, CIK_PREFIX_CHAR)))
+                .forEach(this::extractContentFromUrl);
     }
 
     void extractContentFromUrl(String cik) {
@@ -81,42 +87,42 @@ public class OrganizationDetailsProcessorImpl implements OrganizationDetailsProc
 
             while (headerElements.hasNext() && valueElements.hasNext()) {
 
-                String headerName = headerElements.next().ownText().strip();
-                String value = valueElements.next().ownText().strip();
+                String headerName = headerElements.next().ownText().trim();
+                String value = valueElements.next().ownText().trim();
 
                 switch (headerName) {
                     case "Company Name:":
-                        organizationDetail.setName(value.equals("")? "N/A": value);
+                        organizationDetail.setName(value.equals("") ? "N/A" : value);
                         break;
                     case "CIK:":
-                        organizationDetail.setCik(value.equals("")? "N/A": value);
+                        organizationDetail.setCik(value.equals("") ? "N/A" : value);
                         break;
                     case "IRS Number:":
-                        organizationDetail.setIrsNumber(value.equals("")? "N/A": value);
+                        organizationDetail.setIrsNumber(value.equals("") ? "N/A" : value);
                         break;
                     case "Reporting File Number:":
-                        organizationDetail.setReportingFileNumber(value.equals("")? "N/A": value);
+                        organizationDetail.setReportingFileNumber(value.equals("") ? "N/A" : value);
                         break;
                     case "Regulated Entity Type:":
-                        organizationDetail.setRegulatedEntityType(value.equals("")? "N/A": value);
+                        organizationDetail.setRegulatedEntityType(value.equals("") ? "N/A" : value);
                         break;
                     case "SIC Code:":
-                        organizationDetail.setSicCode(value.equals("")? "N/A": value);
+                        organizationDetail.setSicCode(value.equals("") ? "N/A" : value);
                         break;
                     case "Address:":
-                        organizationDetail.setAddress(value.equals("")? "N/A": value);
+                        organizationDetail.setAddress(value.equals("") ? "N/A" : value);
                         break;
                     case "Phone Number:":
-                        organizationDetail.setPhoneNumber(value.equals("")? "N/A": value);
+                        organizationDetail.setPhoneNumber(value.equals("") ? "N/A" : value);
                         break;
                     case "State of Incorporation:":
-                        organizationDetail.setStateOfIncorporation(value.equals("")? "N/A": value);
+                        organizationDetail.setStateOfIncorporation(value.equals("") ? "N/A" : value);
                         break;
                     case "Fiscal Year End:":
-                        organizationDetail.setFiscalYearEnd(value.equals("")? "N/A": value);
+                        organizationDetail.setFiscalYearEnd(value.equals("") ? "N/A" : value);
                         break;
                     case "Date of Last Update:":
-                        organizationDetail.setDateOfLastUpdate(value.equals("")? "N/A": value);
+                        organizationDetail.setDateOfLastUpdate(value.equals("") ? "N/A" : value);
                         break;
                     default:
                         log.error("Unexpected element for CIK {}, element {}", cik, headerName);

@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import ticker.list.domain.SicData;
 
 public interface SICDataRepository
-    extends CrudRepository<SicData, String> {
+        extends CrudRepository<SicData, String> {
 
 }

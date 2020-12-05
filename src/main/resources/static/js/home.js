@@ -7,129 +7,57 @@
 let ns = {};
 
 // Create the model instance
-ns.model = (function() {
+ns.model = (function () {
     'use strict';
 
     let $event_pump = $('body');
 
     // Return the API
     return {
-        'read': function() {
+        'read': function () {
             let ajax_options = {
                 type: 'GET',
-                data: {length: 50000},
-                url: 'api/tickers',
-                accepts: 'application/json',
+                data: {number_of_samples: 1000},
+                url: '/tickers',
+                accept: 'application/json',
                 dataType: 'json'
             };
             $.ajax(ajax_options)
-            .done(function(data) {
-                $event_pump.trigger('model_read_success', [data]);
-            })
-            .fail(function(xhr, textStatus, errorThrown) {
-                $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-            })
-        },
-        create: function(Symbol, Security, SECFilings, HeadquartersLocation, GICSSubIndustry, GICSSector, Founded, DateFirstAdded, CIK ) {
-            let ajax_options = {
-                type: 'POST',
-                url: 'api/tickers',
-                accepts: 'application/json',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'Symbol' : Symbol,
-                    'Security' : Security,
-                    'SECFilings' : SECFilings,
-                    'HeadquartersLocation' : HeadquartersLocation,
-                    'GICSSubIndustry' : GICSSubIndustry,
-                    'GICSSector' : GICSSector,
-                    'Founded' : Founded,
-                    'DateFirstAdded' : DateFirstAdded,
-                    'CIK' : CIK
+                .done(function (data) {
+                    $event_pump.trigger('model_read_success', [data]);
                 })
-            };
-            $.ajax(ajax_options)
-            .done(function(data) {
-                $event_pump.trigger('model_create_success', [data]);
-            })
-            .fail(function(xhr, textStatus, errorThrown) {
-                $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-            })
-        },
-        update: function(Symbol, Security, SECFilings, HeadquartersLocation, GICSSubIndustry, GICSSector, Founded, DateFirstAdded, CIK ) {
-            let ajax_options = {
-                type: 'PATCH',
-                url: 'api/tickers',
-                accepts: 'application/json',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'Symbol' : Symbol,
-                    'Security' : Security,
-                    'SECFilings' : SECFilings,
-                    'HeadquartersLocation' : HeadquartersLocation,
-                    'GICSSubIndustry' : GICSSubIndustry,
-                    'GICSSector' : GICSSector,
-                    'Founded' : Founded,
-                    'DateFirstAdded' : DateFirstAdded,
-                    'CIK' : CIK
+                .fail(function (textStatus, errorThrown, xhr) {
+                    $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
-            };
-            $.ajax(ajax_options)
-            .done(function(data) {
-                $event_pump.trigger('model_update_success', [data]);
-            })
-            .fail(function(xhr, textStatus, errorThrown) {
-                $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-            })
         }
     };
 }());
 
 // Create the view instance
-ns.view = (function() {
+ns.view = (function () {
     'use strict';
 
-    let 
-    $Symbol                   = $('#Symbol'),
-    $Security                 = $('#Security'),
-    $SECFilings               = $('#SECFilings'),
-    $HeadquartersLocation     = $('#HeadquartersLocation'),
-    $GICSSubIndustry          = $('#GICSSubIndustry'),
-    $GICSSector               = $('#GICSSector'),
-    $Founded                  = $('#Founded'),
-    $DateFirstAdded           = $('#DateFirstAdded'),
-    $CIK                      = $('#CIK');
+    let $Name = $('#Name'),
+        $Ticker = $('#Ticker'),
+        $CIK = $('#CIK'),
+        $Headquarters = $('#Headquarters'),
+        $GICSSubIndustry = $('#GICSSubIndustry'),
+        $GICSSector = $('#GICSSector'),
+        $Incorporation = $('#Incorporation')
+    ;
 
     // return the API
     return {
-        reset: function() {
-            $Symbol.val('');
-            $Security.val('').focus();
-            $SECFilings.val('');
-            $HeadquartersLocation.val('');
+        reset: function () {
+            $Name.val('');
+            $Ticker.val('').focus();
+            $CIK.val('');
+            $Headquarters.val('');
             $GICSSubIndustry.val('');
             $GICSSector.val('');
-            $Founded.val('');
-            $DateFirstAdded.val('');
-            $CIK.val('');
+            $Incorporation.val('');
         },
-        update_editor: function(Symbol, Security, SECFilings, 
-                                HeadquartersLocation, GICSSubIndustry, 
-                                GICSSector, Founded, DateFirstAdded, CIK) 
-        {
-            $Symbol.val(Symbol);
-            $Security.val(Security).focus();
-            $SECFilings.val(SECFilings);
-            $HeadquartersLocation.val(HeadquartersLocation);
-            $GICSSubIndustry.val(GICSSubIndustry);
-            $GICSSector.val(GICSSector);
-            $Founded.val(Founded);
-            $DateFirstAdded.val(DateFirstAdded);
-            $CIK.val(CIK);
-        },
-        build_table: function(tickers) {
+        build_table: function (tickers) {
 
             let rows = ''
 
@@ -138,35 +66,50 @@ ns.view = (function() {
 
             // did we get a tickers array?
             if (tickers) {
-                for (let i=0, l=tickers.length; i < l; i++) {
+                for (let i = 0, l = tickers.length; i < l; i++) {
+                    let name = `${tickers[i].name}`;
+                    let ticker = `${tickers[i].ticker}`;
+                    let cik = `${tickers[i].cik}`;
+                    let address = ` `;
+                    let incorporation = ` `;
+                    let industry = ` `;
+                    let sicTitle = ` `;
+
+                    if (tickers[i].organizationDetails != null) {
+                        address = tickers[i].organizationDetails == null? ` ` : `${tickers[i].organizationDetails.address.replaceAll(',', '<br/>')}`;
+                        incorporation = tickers[i].organizationDetails == null? ` ` : `${tickers[i].organizationDetails.stateOfIncorporation}`;
+
+                        if (tickers[i].organizationDetails.sicData != null) {
+                            industry = `${tickers[i].organizationDetails.sicData.industry}`;
+                            sicTitle = `${tickers[i].organizationDetails.sicData.sicTitle}`;
+                        }
+                    }
+
                     rows += `<tr> 
-                                    <td class="leftIndentedCell">${tickers[i].Symbol}</td>
-                                    <td class="leftIndentedCell">${tickers[i].Security}</td>
-                                    <!-- td class="leftIndentedCell">${tickers[i].SECFilings}</td -->
-                                    <td class="leftIndentedCell">${tickers[i].HeadquartersLocation}</td>
-                                    <td class="leftIndentedCell">${tickers[i].GICSSubIndustry}</td>
-                                    <td class="leftIndentedCell">${tickers[i].GICSSector}</td>
-                                    <td class="leftIndentedCell">${tickers[i].Founded}</td>
-                                    <td class="leftIndentedCell">${tickers[i].DateFirstAdded}</td>
-                                    <td class="leftIndentedCell">${tickers[i].CIK}</td>
+                                    <td class="leftIndentedCell">${name}</td>
+                                    <td class="leftIndentedCell">${ticker}</td>
+                                    <td class="leftIndentedCell">${cik}</td>
+                                    <td class="leftIndentedCell">${address}</td>
+                                    <td class="leftIndentedCell">${industry}</td>
+                                    <td class="leftIndentedCell">${sicTitle}</td>
+                                    <td class="leftIndentedCell">${incorporation}</td>
                             </tr>`;
                 }
                 $('table > tbody').append(rows);
             }
 
             // Pagination and Search Capabilities
-            $(document).ready( function () {
+            $(document).ready(function () {
                 $('#data_table').DataTable();
-            } );
+            });
 
-            
-            
+
         },
-        error: function(error_msg) {
+        error: function (error_msg) {
             $('.error')
                 .text(error_msg)
                 .css('visibility', 'visible');
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.error').css('visibility', 'hidden');
             }, 3000)
         }
@@ -174,116 +117,57 @@ ns.view = (function() {
 }());
 
 // Create the controller
-ns.controller = (function(m, v) {
+ns.controller = (function (m, v) {
     'use strict';
 
     let model = m,
         view = v,
         $event_pump = $('body'),
-        $Symbol                   = $('#Symbol'),
-        $Security                 = $('#Security'),
-        $SECFilings               = $('#SECFilings'),
-        $HeadquartersLocation     = $('#HeadquartersLocation'),
-        $GICSSubIndustry          = $('#GICSSubIndustry'),
-        $GICSSector               = $('#GICSSector'),
-        $Founded                  = $('#Founded'),
-        $DateFirstAdded           = $('#DateFirstAdded'),
-        $CIK                      = $('#CIK');
+        $Name = $('#Name'),
+        $Ticker = $('#Ticker'),
+        $CIK = $('#CIK'),
+        $Headquarters = $('#Headquarters'),
+        $GICSSubIndustry = $('#GICSSubIndustry'),
+        $GICSSector = $('#GICSSector'),
+        $Incorporation = $('#Incorporation');
 
     // Get the data from the model after the controller is done initializing
-    setTimeout(function() {
+    setTimeout(function () {
         model.read();
     }, 100)
 
-    // Validate input
-    function validate(Symbol, Security, SECFilings, HeadquartersLocation, GICSSubIndustry, GICSSector, Founded, DateFirstAdded, CIK) {
-        return Symbol                   !== "" && 
-            Security                    !== "" &&
-            SECFilings                  !== "" && 
-            HeadquartersLocation        !== "" &&
-            GICSSubIndustry             !== "" && 
-            GICSSector                  !== "" &&
-            Founded                     !== "" && 
-            DateFirstAdded              !== "" &&
-            CIK                         !== "" ;
-    }       
-
-    // Create our event handlers
-    $('#create').click(function(e) {
-        let Symbol                   = $Symbol.val(),
-            Security                 = $Security.val(),
-            SECFilings               = $SECFilings.val(),
-            HeadquartersLocation     = $HeadquartersLocation.val(),
-            GICSSubIndustry          = $GICSSubIndustry.val(),
-            GICSSector               = $GICSSector.val(),
-            Founded                  = $Founded.val(),
-            DateFirstAdded           = $DateFirstAdded.val(),
-            CIK                      = $CIK.val();
-
-        e.preventDefault();
-
-        if (validate(Symbol, Security, SECFilings, HeadquartersLocation, GICSSubIndustry, GICSSector, Founded, DateFirstAdded, CIK)) {
-            model.create(Symbol, Security, SECFilings, HeadquartersLocation, GICSSubIndustry, GICSSector, Founded, DateFirstAdded, CIK)
-        } else {
-            alert('Problem with input data');
-        }
-    });
-
-    $('#update').click(function(e) {
-        let Symbol                   = $Symbol.val(),
-            Security                 = $Security.val(),
-            SECFilings               = $SECFilings.val(),
-            HeadquartersLocation     = $HeadquartersLocation.val(),
-            GICSSubIndustry          = $GICSSubIndustry.val(),
-            GICSSector               = $GICSSector.val(),
-            Founded                  = $Founded.val(),
-            DateFirstAdded           = $DateFirstAdded.val(),
-            CIK                      = $CIK.val();
-
-        e.preventDefault();
-
-        if (validate(Symbol, Security, SECFilings, HeadquartersLocation, GICSSubIndustry, GICSSector, Founded, DateFirstAdded, CIK)) {
-            model.update(Symbol, Security, SECFilings, HeadquartersLocation, GICSSubIndustry, GICSSector, Founded, DateFirstAdded, CIK)
-        } else {
-            alert('Problem with input data');
-        }
-        e.preventDefault();
-    });
-
-    $('#reset').click(function() {
+    $('#reset').click(function () {
         view.reset();
     })
 
-    $('table > tbody').on('dblclick', 'tr', function(e) {
+    $('table > tbody').on('dblclick', 'tr', function (e) {
         let $target = $(e.target),
-            Symbol              ,
-            Security            ,
-            SECFilings          ,
-            HeadquartersLocation,
-            GICSSubIndustry     ,
-            GICSSector          ,
-            Founded             ,
-            DateFirstAdded      ,
-            CIK                 ;
+            Name,
+            Ticker,
+            CIK,
+            Headquarters,
+            GICSSubIndustry,
+            GICSSector,
+            Incorporation;
 
-        Symbol = $target
+        Name = $target
             .parent()
-            .find('td.Symbol')
+            .find('td.Name')
             .text();
 
-        Security = $target
+        Ticker = $target
             .parent()
-            .find('td.Security')
+            .find('td.Ticker')
             .text();
 
-        SECFilings = $target
+        CIK = $target
             .parent()
-            .find('td.SECFilings')
+            .find('td.CIK')
             .text();
 
-        HeadquartersLocation = $target
+        Headquarters = $target
             .parent()
-            .find('td.HeadquartersLocation')
+            .find('td.Headquarters')
             .text();
 
         GICSSubIndustry = $target
@@ -296,44 +180,23 @@ ns.controller = (function(m, v) {
             .find('td.GICSSector')
             .text();
 
-        Founded = $target
+        Incorporation = $target
             .parent()
-            .find('td.Founded')
+            .find('td.Incorporation')
             .text();
 
-        DateFirstAdded = $target
-            .parent()
-            .find('td.DateFirstAdded')
-            .text();
-
-        CIK = $target
-            .parent()
-            .find('td.CIK')
-            .text();
-
-        view.update_editor(Symbol, Security, SECFilings, HeadquartersLocation, GICSSubIndustry, GICSSector, Founded, DateFirstAdded, CIK);
+        view.update_editor(Name, Ticker, CIK, Headquarters, GICSSubIndustry, GICSSector, Incorporation);
     });
 
     // Handle the model events
-    $event_pump.on('model_read_success', function(e, data) {
+    $event_pump.on('model_read_success', function (e, data) {
         view.build_table(data);
         view.reset();
     });
 
-    $event_pump.on('model_create_success', function(e, data) {
-        model.read();
-    });
-
-    $event_pump.on('model_update_success', function(e, data) {
-        model.read();
-    });
-
-    $event_pump.on('model_delete_success', function(e, data) {
-        model.read();
-    });
-
     $event_pump.on('model_error', function(e, xhr, textStatus, errorThrown) {
-        let error_msg = textStatus + ': ' + errorThrown + ' - ' + xhr.responseJSON.detail;
+        let error_msg = textStatus
+            + ': ' + errorThrown;
         view.error(error_msg);
         console.log(error_msg);
     })

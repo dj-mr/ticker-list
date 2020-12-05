@@ -12,8 +12,8 @@ import java.io.Serializable;
 
 /**
  * CIK, ticker list as shared in https://www.sec.gov/files/company_tickers.json.
- * @author jdaruri
  *
+ * @author jdaruri
  */
 @Data
 @Entity

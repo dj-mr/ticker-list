@@ -21,10 +21,10 @@ public class SicProcessorImpl implements SicProcessor {
 
     @Value("${sec.urls.sic-codes}")
     String sicCodesUrl;
-    
+
     @Autowired
     SICDataRepository sicDataRepository;
-    
+
     List<SicData> sicDataList = new ArrayList<>();
 
     @Override
@@ -37,11 +37,11 @@ public class SicProcessorImpl implements SicProcessor {
             while (codeValues.hasNext()) {
                 sicDataList.add(new SicData(codeValues.next().ownText(), codeValues.next().ownText(), codeValues.next().ownText()));
             }
-            
+
             sicDataRepository.saveAll(sicDataList);
         } catch (IOException e) {
             e.printStackTrace();
-        } 
+        }
 
 
     }

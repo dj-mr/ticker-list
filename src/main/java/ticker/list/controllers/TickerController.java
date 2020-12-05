@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import ticker.constants.Constants;
 import ticker.list.data.TickerCIKMapRepository;
 import ticker.list.domain.TickerCikMap;
 import ticker.list.processors.CIKProcessor;
@@ -27,17 +28,16 @@ import java.util.List;
 public class TickerController {
 
     /**
+     * Variable used to for processing CIK data.
+     */
+    @Autowired
+    CIKProcessor cikProcessor;
+    /**
      * TickerCIKMapRepository.
      */
     @Autowired
     private TickerCIKMapRepository tickerCIKMapRepository;
 
-    /**
-     * Variable used to for processing CIK data.
-     */
-    @Autowired
-    CIKProcessor cikProcessor;
-    
     @Autowired
     private OrganizationDetailsProcessor organizationDetailsProcessor;
 
@@ -46,11 +46,26 @@ public class TickerController {
 
     /**
      * Fetch Ticker Details for all tickers.
+     *
+     * @param numberOfSamples Number of samples to be returned as part of GET response.
      * @return List of all tickers
      */
     @GetMapping
-    public Flux<TickerCikMap> getAllTickers(@RequestParam(name = "number_of_samples", required = false, defaultValue = "100") int numberOfSamples) {
-        return Flux.fromIterable(tickerCIKMapRepository.findAll()).take(numberOfSamples).take(Duration.ofSeconds(2));
+    public Flux<TickerCikMap> getAllTickers(
+             @RequestParam(name = "ticker_symbol", required = false) String ticker
+            ,@RequestParam(name = "cik", required = false) String cik
+            ,@RequestParam(name = "name", required = false) String name
+            ,@RequestParam(name = "number_of_samples", required = false, defaultValue = "100") int numberOfSamples
+    ) {
+        return Flux.fromIterable(
+                tickerCIKMapRepository
+                        .findAll()
+        )
+                .filter(row -> ticker == null || row.getTicker().equalsIgnoreCase(ticker))
+                .filter(row -> cik == null || row.getCik().equalsIgnoreCase(cik))
+                .filter(row -> name == null || row.getName().toLowerCase().contains(name.toLowerCase()))
+                .take(numberOfSamples)
+                .take(Duration.ofMillis(Constants.SLA_RESPONSE_FOR_GET_REQUEST));
     }
 
     /**
@@ -60,7 +75,7 @@ public class TickerController {
     public void updateTickerInfo() {
         sicProcessor.refreshSicCodes();
         List<String> ciksRefreshed = cikProcessor.refreshCIKData();
-        organizationDetailsProcessor.updateOrganizationDetails(ciksRefreshed);
+        new Thread(() -> organizationDetailsProcessor.updateOrganizationDetails(ciksRefreshed)).start();
     }
 
 }

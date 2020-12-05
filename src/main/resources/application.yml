@@ -1,28 +1,28 @@
 # Server details
 server:
   port: 8443
-  
+
 # SEC Links
 sec:
   urls:
     sic-codes: https://www.sec.gov/info/edgar/siccodes.htm
     ciks: https://www.sec.gov/files/company_tickers.json
-    company-details: 
+    company-details:
       prefix: https://www.edgarcompany.sec.gov/servlet/CompanyDBSearch?page=detailed&cik=
       suffix: "&main_back=2"
   local-folders:
     ciks: /tmp/company_tickers.json
-    
+
 # Swagger documentation
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-    
+
 # Batch size for database operations    
 database:
   batchSize:
     inserts: 500
-    
+
 # Spring Data Sources
 spring:
   datasource:
