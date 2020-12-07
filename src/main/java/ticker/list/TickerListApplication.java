@@ -8,6 +8,7 @@ public class TickerListApplication {
 
     /**
      * Bootstrapping Application.
+     *
      * @param args - command line arguments passed to this application.
      */
     public static void main(String[] args) {

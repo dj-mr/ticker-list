@@ -12,8 +12,8 @@ import java.io.Serializable;
 
 /**
  * CIK, ticker list as shared in https://www.sec.gov/files/company_tickers.json.
- * @author jdaruri
  *
+ * @author jdaruri
  */
 @Data
 @Entity
@@ -37,6 +37,9 @@ public class TickerCikMap implements Serializable {
      */
     private String name;
 
+    /**
+     * Variable that ties this class with OrganizationDetails.
+     */
     @OneToOne
     @PrimaryKeyJoinColumn
     private OrganizationDetails organizationDetails;

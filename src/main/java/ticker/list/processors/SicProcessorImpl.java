@@ -15,18 +15,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * This class implements SicProcessor interface.
+ */
 @Component
 @Slf4j
 public class SicProcessorImpl implements SicProcessor {
 
+    /**
+     * Variable that hold SIC codes' URL as string.
+     */
     @Value("${sec.urls.sic-codes}")
-    String sicCodesUrl;
-    
-    @Autowired
-    SICDataRepository sicDataRepository;
-    
-    List<SicData> sicDataList = new ArrayList<>();
+    private String sicCodesUrl;
 
+    /**
+     * SICDataRepository accessor.
+     */
+    @Autowired
+    private SICDataRepository sicDataRepository;
+
+    /**
+     * SIC Data with corresponding details is captured in this variable.
+     */
+    private List<SicData> sicDataList = new ArrayList<>();
+
+    /**
+     * This method refreshes SIC Codes. It fetches data from SIC Codes URL and saves it in database.
+     */
     @Override
     public void refreshSicCodes() {
 
@@ -35,13 +50,17 @@ public class SicProcessorImpl implements SicProcessor {
             ListIterator<Element> codeValues = document.select("td").listIterator();
 
             while (codeValues.hasNext()) {
-                sicDataList.add(new SicData(codeValues.next().ownText(), codeValues.next().ownText(), codeValues.next().ownText()));
+                sicDataList.add(new SicData(
+                        codeValues.next().ownText(),
+                        codeValues.next().ownText(),
+                        codeValues.next().ownText()
+                ));
             }
-            
+
             sicDataRepository.saveAll(sicDataList);
         } catch (IOException e) {
             e.printStackTrace();
-        } 
+        }
 
 
     }

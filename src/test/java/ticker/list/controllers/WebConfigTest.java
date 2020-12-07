@@ -25,14 +25,15 @@ public class WebConfigTest {
 
     /**
      * Testing Home Page Response.
+     *
      * @throws Exception thrown by URI resource.
      */
     @Test
     public void testHome() throws Exception {
         mockMvc.perform(get("/"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("home"))
-            .andExpect(content().string(containsString("Ticker")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("home"))
+                .andExpect(content().string(containsString("Ticker")))
         ;
 
     }

@@ -24,6 +24,11 @@
       "name": "sec.urls.company-details.suffix",
       "type": "java.lang.String",
       "description": "Suffix that must be appended to create URL that offers company details."
+    },
+    {
+      "name": "sec.urls.sic-codes",
+      "type": "java.lang.String",
+      "description": "URL from SEC website that holds Industry Codes and Descriptions."
     }
   ]
 }

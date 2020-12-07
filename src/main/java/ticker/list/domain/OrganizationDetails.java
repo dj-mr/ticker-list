@@ -14,9 +14,9 @@ import java.util.Date;
 
 /**
  * Domain Model based on definitions at
- * https://www.edgarcompany.sec.gov/servlet/CompanyDBSearch?page=detailed&cik=0000789019&main_back=2.
- * @author jdaruri
+ * www.edgarcompany.sec.gov/servlet/CompanyDBSearch?page=detailed&cik=0000789019&main_back=2.
  *
+ * @author jdaruri
  */
 @Data
 @Entity
@@ -84,13 +84,20 @@ public class OrganizationDetails implements Serializable {
      * Date Record is added to the ticker-list database.
      */
     private Date createdAt;
+
+    /**
+     * Relationship definition of OrganizationDetails class with SicData class.
+     */
+    @OneToOne
+    @JoinColumn(name = "sicCode", insertable = false, updatable = false)
+    private SicData sicData;
+
+    /**
+     * Holds the value when record was inserted in database.
+     */
     @PrePersist
     void createdAt() {
         this.createdAt = new Date();
     }
-
-    @OneToOne
-    @JoinColumn(name = "sicCode", insertable = false, updatable = false)
-    private SicData sicData;
 
 }

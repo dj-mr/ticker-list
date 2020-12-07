@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ticker.list.constants.Constants;
 import ticker.list.data.TickerCIKMapRepository;
 import ticker.list.domain.TickerCikMap;
 
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static ticker.list.constants.Constants.CIK_PREFIX_CHAR;
 
 @Component
 @Slf4j
@@ -25,7 +28,7 @@ public class CIKProcessorImpl implements CIKProcessor {
      * Autowire TickerCIKMapRepository.
      */
     @Autowired
-    TickerCIKMapRepository tickerCIKMapRepository;
+    private TickerCIKMapRepository tickerCIKMapRepository;
 
     /**
      * Variable that holds URI for CIK Data.
@@ -47,7 +50,7 @@ public class CIKProcessorImpl implements CIKProcessor {
 
     /**
      * Refresh CIK data in CIK database.
-     * 
+     *
      * @return returns list of CIKs returned by Ticker-CIK-Name URI.
      */
     @Override
@@ -71,30 +74,32 @@ public class CIKProcessorImpl implements CIKProcessor {
                         String fieldName = jsonParser.getCurrentName();
 
                         switch (fieldName) {
-                        case "cik_str":
-                            // Extract next token
-                            jsonParser.nextToken();
+                            case "cik_str":
+                                // Extract next token
+                                jsonParser.nextToken();
 
-                            // Save value of token in CIK
-                            tickerCikMap.setCik(StringUtils.leftPad(jsonParser.getText(), 10, '0'));
-                            cikList.add(StringUtils.leftPad(jsonParser.getText(), 10, '0'));
-                            break;
-                        case "ticker":
-                            // Extract next token
-                            jsonParser.nextToken();
+                                // Save value of token in CIK
+                                tickerCikMap.setCik(StringUtils.leftPad(jsonParser.getText(),
+                                        Constants.CIK_STRING_SIZE, CIK_PREFIX_CHAR));
+                                cikList.add(StringUtils.leftPad(jsonParser.getText(),
+                                        Constants.CIK_STRING_SIZE, CIK_PREFIX_CHAR));
+                                break;
+                            case "ticker":
+                                // Extract next token
+                                jsonParser.nextToken();
 
-                            // Save value of token in Ticker
-                            tickerCikMap.setTicker(jsonParser.getText());
-                            break;
-                        case "title":
-                            // Extract next token
-                            jsonParser.nextToken();
+                                // Save value of token in Ticker
+                                tickerCikMap.setTicker(jsonParser.getText());
+                                break;
+                            case "title":
+                                // Extract next token
+                                jsonParser.nextToken();
 
-                            // Save value of token in Name
-                            tickerCikMap.setName(jsonParser.getText());
-                            break;
-                        default:
-                            break;
+                                // Save value of token in Name
+                                tickerCikMap.setName(jsonParser.getText());
+                                break;
+                            default:
+                                break;
 
                         }
                     }
@@ -106,7 +111,8 @@ public class CIKProcessorImpl implements CIKProcessor {
         }
 
         // Save content to DB in batches
-        Iterables.partition(tickerCIKMapList, insertBatchSize).forEach(batch -> tickerCIKMapRepository.saveAll(batch));
+        Iterables.partition(tickerCIKMapList, insertBatchSize)
+                .forEach(batch -> tickerCIKMapRepository.saveAll(batch));
 
         return cikList;
 
