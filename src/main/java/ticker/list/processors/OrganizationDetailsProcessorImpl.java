@@ -19,8 +19,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static ticker.constants.Constants.CIK_PREFIX_CHAR;
-import static ticker.constants.Constants.CIK_STRING_SIZE;
+import static ticker.list.constants.Constants.CIK_PREFIX_CHAR;
+import static ticker.list.constants.Constants.CIK_STRING_SIZE;
 
 @Component
 @Slf4j
@@ -50,8 +50,13 @@ public class OrganizationDetailsProcessorImpl implements OrganizationDetailsProc
     @Value("${database.batch-size.inserts}")
     private int insertBatchSize;
 
+    /**
+     * This method fetches Organization Details from SEC and updates in database.
+     *
+     * @param ciksToRefresh - List of tickers whose data must be refreshed.
+     */
     @Override
-    public void updateOrganizationDetails(List<String> ciksToRefresh) {
+    public void updateOrganizationDetails(final List<String> ciksToRefresh) {
 
         Function<OrganizationDetails, String> getCikValue
                 = OrganizationDetails::getCik;
@@ -72,11 +77,21 @@ public class OrganizationDetailsProcessorImpl implements OrganizationDetailsProc
          */
         ciksToRefresh
                 .parallelStream()
-                .filter(cik -> !ciksAlreadyInDatabase.contains(StringUtils.leftPad(cik, CIK_STRING_SIZE, CIK_PREFIX_CHAR)))
+                .filter(cik -> !ciksAlreadyInDatabase.contains(
+                        StringUtils.leftPad(
+                                cik,
+                                CIK_STRING_SIZE,
+                                CIK_PREFIX_CHAR
+                        )))
                 .forEach(this::extractContentFromUrl);
     }
 
-    void extractContentFromUrl(String cik) {
+    /**
+     * Given a CIK, this method fetches details about linked organization and saves to DB.
+     *
+     * @param cik whose data must be refreshed.
+     */
+    void extractContentFromUrl(final String cik) {
 
         OrganizationDetails organizationDetail = new OrganizationDetails();
 
@@ -133,7 +148,8 @@ public class OrganizationDetailsProcessorImpl implements OrganizationDetailsProc
             organizationDetailsRepository.save(organizationDetail);
             log.debug("Saved data for CIK: {}", cik);
         } catch (HttpStatusException httpStatusException) {
-            log.error("CIK {} processing resulted in HTTP Status exception {}", cik, httpStatusException.getStatusCode());
+            log.error("CIK {} processing resulted in HTTP Status exception {}",
+                    cik, httpStatusException.getStatusCode());
         } catch (IOException e) {
             log.error("CIK {} processing resulted in IOexception {}", cik, e.getMessage());
             e.printStackTrace();

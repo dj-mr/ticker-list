@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ticker.constants.Constants;
+import ticker.list.constants.Constants;
 import ticker.list.data.TickerCIKMapRepository;
 import ticker.list.domain.TickerCikMap;
 
@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ticker.constants.Constants.CIK_PREFIX_CHAR;
+import static ticker.list.constants.Constants.CIK_PREFIX_CHAR;
 
 @Component
 @Slf4j
@@ -79,8 +79,10 @@ public class CIKProcessorImpl implements CIKProcessor {
                                 jsonParser.nextToken();
 
                                 // Save value of token in CIK
-                                tickerCikMap.setCik(StringUtils.leftPad(jsonParser.getText(), Constants.CIK_STRING_SIZE, CIK_PREFIX_CHAR));
-                                cikList.add(StringUtils.leftPad(jsonParser.getText(), Constants.CIK_STRING_SIZE, CIK_PREFIX_CHAR));
+                                tickerCikMap.setCik(StringUtils.leftPad(jsonParser.getText(),
+                                        Constants.CIK_STRING_SIZE, CIK_PREFIX_CHAR));
+                                cikList.add(StringUtils.leftPad(jsonParser.getText(),
+                                        Constants.CIK_STRING_SIZE, CIK_PREFIX_CHAR));
                                 break;
                             case "ticker":
                                 // Extract next token
@@ -109,7 +111,8 @@ public class CIKProcessorImpl implements CIKProcessor {
         }
 
         // Save content to DB in batches
-        Iterables.partition(tickerCIKMapList, insertBatchSize).forEach(batch -> tickerCIKMapRepository.saveAll(batch));
+        Iterables.partition(tickerCIKMapList, insertBatchSize)
+                .forEach(batch -> tickerCIKMapRepository.saveAll(batch));
 
         return cikList;
 

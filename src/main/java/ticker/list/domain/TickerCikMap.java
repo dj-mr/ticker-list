@@ -37,6 +37,9 @@ public class TickerCikMap implements Serializable {
      */
     private String name;
 
+    /**
+     * Variable that ties this class with OrganizationDetails.
+     */
     @OneToOne
     @PrimaryKeyJoinColumn
     private OrganizationDetails organizationDetails;

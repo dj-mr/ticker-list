@@ -5,6 +5,10 @@ This application provides Organization Details. Refresh operation refreshes the 
  - Headquarters
  - SIC Code
  
+ Information returned by the application can be viewed using single page application (SPA) or REST API. Below screenshot shows content displayed in SPA
+ ![SinglePageApplicationScreenshot](/src/main/resources/miscellaneous/spa_image.png)
+ 
+ REST api sample request and response is shown below:
  Sample Request:
  ```
     curl --request GET \

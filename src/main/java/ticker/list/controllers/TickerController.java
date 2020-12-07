@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-import ticker.constants.Constants;
+import ticker.list.constants.Constants;
 import ticker.list.data.TickerCIKMapRepository;
 import ticker.list.domain.TickerCikMap;
 import ticker.list.processors.CIKProcessor;
@@ -31,31 +31,40 @@ public class TickerController {
      * Variable used to for processing CIK data.
      */
     @Autowired
-    CIKProcessor cikProcessor;
+    private CIKProcessor cikProcessor;
     /**
      * TickerCIKMapRepository.
      */
     @Autowired
     private TickerCIKMapRepository tickerCIKMapRepository;
 
+    /**
+     * OrganizationDetailsProcessor accessor.
+     */
     @Autowired
     private OrganizationDetailsProcessor organizationDetailsProcessor;
 
+    /**
+     * SIC Processor accessor.
+     */
     @Autowired
     private SicProcessor sicProcessor;
 
     /**
      * Fetch Ticker Details for all tickers.
      *
+     * @param ticker          If this is not empty string, filters data to keep just the ticker's data.
+     * @param cik             If this is not empty string, filters data to keep just the cik's data.
+     * @param name            If this is not empty string, filters data to keep just the name's data.
      * @param numberOfSamples Number of samples to be returned as part of GET response.
      * @return List of all tickers
      */
     @GetMapping
     public Flux<TickerCikMap> getAllTickers(
-             @RequestParam(name = "ticker_symbol", required = false) String ticker
-            ,@RequestParam(name = "cik", required = false) String cik
-            ,@RequestParam(name = "name", required = false) String name
-            ,@RequestParam(name = "number_of_samples", required = false, defaultValue = "100") int numberOfSamples
+            @RequestParam(name = "ticker_symbol", required = false) final String ticker,
+            @RequestParam(name = "cik", required = false) final String cik,
+            @RequestParam(name = "name", required = false) final String name,
+            @RequestParam(name = "number_of_samples", required = false, defaultValue = "100") final int numberOfSamples
     ) {
         return Flux.fromIterable(
                 tickerCIKMapRepository

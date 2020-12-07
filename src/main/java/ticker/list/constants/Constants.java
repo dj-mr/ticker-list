@@ -1,4 +1,4 @@
-package ticker.constants;
+package ticker.list.constants;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

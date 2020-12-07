@@ -76,8 +76,8 @@ ns.view = (function () {
                     let sicTitle = ` `;
 
                     if (tickers[i].organizationDetails != null) {
-                        address = tickers[i].organizationDetails == null? ` ` : `${tickers[i].organizationDetails.address.replaceAll(',', '<br/>')}`;
-                        incorporation = tickers[i].organizationDetails == null? ` ` : `${tickers[i].organizationDetails.stateOfIncorporation}`;
+                        address = tickers[i].organizationDetails == null ? ` ` : `${tickers[i].organizationDetails.address.replaceAll(',', '<br/>')}`;
+                        incorporation = tickers[i].organizationDetails == null ? ` ` : `${tickers[i].organizationDetails.stateOfIncorporation}`;
 
                         if (tickers[i].organizationDetails.sicData != null) {
                             industry = `${tickers[i].organizationDetails.sicData.industry}`;
@@ -122,14 +122,7 @@ ns.controller = (function (m, v) {
 
     let model = m,
         view = v,
-        $event_pump = $('body'),
-        $Name = $('#Name'),
-        $Ticker = $('#Ticker'),
-        $CIK = $('#CIK'),
-        $Headquarters = $('#Headquarters'),
-        $GICSSubIndustry = $('#GICSSubIndustry'),
-        $GICSSector = $('#GICSSector'),
-        $Incorporation = $('#Incorporation');
+        $event_pump = $('body');
 
     // Get the data from the model after the controller is done initializing
     setTimeout(function () {
@@ -194,7 +187,7 @@ ns.controller = (function (m, v) {
         view.reset();
     });
 
-    $event_pump.on('model_error', function(e, xhr, textStatus, errorThrown) {
+    $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {
         let error_msg = textStatus
             + ': ' + errorThrown;
         view.error(error_msg);

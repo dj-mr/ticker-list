@@ -14,7 +14,7 @@ import java.util.Date;
 
 /**
  * Domain Model based on definitions at
- * https://www.edgarcompany.sec.gov/servlet/CompanyDBSearch?page=detailed&cik=0000789019&main_back=2.
+ * www.edgarcompany.sec.gov/servlet/CompanyDBSearch?page=detailed&cik=0000789019&main_back=2.
  *
  * @author jdaruri
  */
@@ -86,7 +86,7 @@ public class OrganizationDetails implements Serializable {
     private Date createdAt;
 
     /**
-     * Relationship definition of OrganiztionDetails class with SicData class.
+     * Relationship definition of OrganizationDetails class with SicData class.
      */
     @OneToOne
     @JoinColumn(name = "sicCode", insertable = false, updatable = false)
