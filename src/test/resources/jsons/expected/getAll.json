@@ -1,0 +1,146 @@
+[
+  {
+    "cik": "0000320193",
+    "ticker": "AAPL",
+    "name": "Apple Inc.",
+    "organizationDetails": {
+      "name": "Apple Inc.",
+      "cik": "0000320193",
+      "irsNumber": "000000000",
+      "reportingFileNumber": "001-36743",
+      "regulatedEntityType": "N/A",
+      "sicCode": "3571",
+      "address": "ONE APPLE PARK WAY CUPERTINO, CALIFORNIA 95014",
+      "phoneNumber": "000-000-0000",
+      "stateOfIncorporation": "CALIFORNIA",
+      "fiscalYearEnd": "0925",
+      "dateOfLastUpdate": "2020-10-30 16:22:35.330989",
+      "createdAt": "2020-11-27T05:14:06.318+00:00",
+      "sicData": {
+        "sicCode": "3571",
+        "industry": "Office of Technology",
+        "sicTitle": "ELECTRONIC COMPUTERS"
+      }
+    }
+  },
+  {
+    "cik": "0000789019",
+    "ticker": "MSFT",
+    "name": "MICROSOFT CORP",
+    "organizationDetails": {
+      "name": "MICROSOFT CORP",
+      "cik": "0000789019",
+      "irsNumber": "000000000",
+      "reportingFileNumber": "001-37845",
+      "regulatedEntityType": "N/A",
+      "sicCode": "7372",
+      "address": "ONE MICROSOFT WAY REDMOND, WASHINGTON 98052-6399",
+      "phoneNumber": "000-000-0000",
+      "stateOfIncorporation": "WASHINGTON",
+      "fiscalYearEnd": "0630",
+      "dateOfLastUpdate": "2019-10-23 16:09:48.757256",
+      "createdAt": "2020-11-27T05:14:06.727+00:00",
+      "sicData": {
+        "sicCode": "7372",
+        "industry": "Office of Technology",
+        "sicTitle": "SERVICES-PREPACKAGED SOFTWARE"
+      }
+    }
+  },
+  {
+    "cik": "0001018724",
+    "ticker": "AMZN",
+    "name": "AMAZON COM INC",
+    "organizationDetails": {
+      "name": "AMAZON COM INC",
+      "cik": "0001018724",
+      "irsNumber": "000000000",
+      "reportingFileNumber": "000-22513",
+      "regulatedEntityType": "N/A",
+      "sicCode": "5961",
+      "address": "410 TERRY AVENUE NORTH SEATTLE, WASHINGTON 98109",
+      "phoneNumber": "000-000-0000",
+      "stateOfIncorporation": "DELAWARE",
+      "fiscalYearEnd": "1231",
+      "dateOfLastUpdate": "2020-05-29 17:28:25.620514",
+      "createdAt": "2020-11-27T05:14:07.346+00:00",
+      "sicData": {
+        "sicCode": "5961",
+        "industry": "Office of Trade & Services",
+        "sicTitle": "RETAIL-CATALOG & MAIL-ORDER HOUSES"
+      }
+    }
+  },
+  {
+    "cik": "0001048515",
+    "ticker": "DANOY",
+    "name": "GROUPE DANONE",
+    "organizationDetails": {
+      "name": "GROUPE DANONE",
+      "cik": "0001048515",
+      "irsNumber": "000000000",
+      "reportingFileNumber": "001-14734",
+      "regulatedEntityType": "N/A",
+      "sicCode": "2000",
+      "address": "17 BOULEVARD HAUSSMANN PARIS, FRANCE, FRANCE 75009",
+      "phoneNumber": "000-000-0000",
+      "stateOfIncorporation": "FRANCE",
+      "fiscalYearEnd": "1231",
+      "dateOfLastUpdate": "2007-07-05 06:11:42.133",
+      "createdAt": "2020-11-27T19:04:22.339+00:00",
+      "sicData": {
+        "sicCode": "2000",
+        "industry": "Office of Manufacturing",
+        "sicTitle": "FOOD AND KINDRED PRODUCTS"
+      }
+    }
+  },
+  {
+    "cik": "0001326801",
+    "ticker": "FB",
+    "name": "Facebook Inc",
+    "organizationDetails": {
+      "name": "Facebook Inc",
+      "cik": "0001326801",
+      "irsNumber": "000000000",
+      "reportingFileNumber": "001-35551",
+      "regulatedEntityType": "NONE",
+      "sicCode": "7370",
+      "address": "1601 WILLOW ROAD MENLO PARK, CALIFORNIA 94025",
+      "phoneNumber": "000-000-0000",
+      "stateOfIncorporation": "DELAWARE",
+      "fiscalYearEnd": "1231",
+      "dateOfLastUpdate": "2019-10-30 21:00:31.600315",
+      "createdAt": "2020-11-27T05:14:09.302+00:00",
+      "sicData": {
+        "sicCode": "7370",
+        "industry": "Office of Technology",
+        "sicTitle": "SERVICES-COMPUTER PROGRAMMING, DATA PROCESSING, ETC."
+      }
+    }
+  },
+  {
+    "cik": "0001526113",
+    "ticker": "GNL-PB",
+    "name": "Global Net Lease, Inc.",
+    "organizationDetails": {
+      "name": "Global Net Lease, Inc.",
+      "cik": "0001526113",
+      "irsNumber": "000000000",
+      "reportingFileNumber": "001-37390",
+      "regulatedEntityType": "NONE",
+      "sicCode": "6798",
+      "address": "650 FIFTH AVE 30TH FLOOR NEW YORK, NEW YORK 10019",
+      "phoneNumber": "000-000-0000",
+      "stateOfIncorporation": "N/A",
+      "fiscalYearEnd": "1231",
+      "dateOfLastUpdate": "2020-05-19 16:48:32.718511",
+      "createdAt": null,
+      "sicData": {
+        "sicCode": "6798",
+        "industry": "Office of Real Estate & Construction",
+        "sicTitle": "REAL ESTATE INVESTMENT TRUSTS"
+      }
+    }
+  }
+]

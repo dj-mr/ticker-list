@@ -79,6 +79,8 @@ public class TickerController {
 
     /**
      * Refresh content in database.
+     * TODO - Parallel executions of this code must be prevented.
+     * This is an idempotent call. One refresh will be sufficient for at least a day
      */
     @PutMapping
     public void updateTickerInfo() {
