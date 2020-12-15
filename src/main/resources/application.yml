@@ -1,6 +1,6 @@
 # Server details
 server:
-  port: 8443
+  port: 8444
 
 # SEC Links
 sec:
@@ -25,6 +25,8 @@ database:
 
 # Spring Data Sources
 spring:
+  application:
+    name: ticker-list
   datasource:
     url: jdbc:postgresql://localhost:5432/financial-data
     username: admin
@@ -42,3 +44,23 @@ spring:
         use_sql_comments: false
         default_schema: ticker_list
     show-sql: false
+
+# End Points that are exposed
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: env, info, health
+  endpoint:
+    health:
+      show-details: always
+    env:
+      enabled: true
+
+# Service Discovery Configuration
+eureka:
+  instance:
+    status-page-url-path: /info
+    health-check-url-path: /health
+    home-page-url: /

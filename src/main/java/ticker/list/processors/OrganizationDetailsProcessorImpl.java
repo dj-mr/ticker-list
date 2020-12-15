@@ -13,6 +13,7 @@ import ticker.list.data.OrganizationDetailsRepository;
 import ticker.list.domain.OrganizationDetails;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.function.Function;
@@ -150,6 +151,9 @@ public class OrganizationDetailsProcessorImpl implements OrganizationDetailsProc
         } catch (HttpStatusException httpStatusException) {
             log.error("CIK {} processing resulted in HTTP Status exception {}",
                     cik, httpStatusException.getStatusCode());
+        } catch (SocketTimeoutException socketTimeoutException) {
+            log.error("CIK {} processing resulted in Socket Timeout exception for {}",
+                    cik, socketTimeoutException.getMessage());
         } catch (IOException e) {
             log.error("CIK {} processing resulted in IOexception {}", cik, e.getMessage());
             e.printStackTrace();
